@@ -15,39 +15,22 @@ public class Bomb extends AnimatedEntity {
     // constructor bomb bình thường
     public Bomb(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        setLayer(2);
+        this.layer = 2;
         this.radius = 1;
     }
 
     // bomb lúc nhận thêm vật phẩm
     public Bomb(int xUnit, int yUnit, Image img, int radius) {
         super(xUnit, yUnit, img);
-        setLayer(2);
+        this.layer = 2;
         this.radius = radius;
     }
 
-    @Override
-    public void update() {
-        if (time_count == 120) {
-            explodeUpgrade();
-        }
-        img = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, time_count, 60).getFxImage();
-    }
-
     // hiệu ứng flame sau khi bùm
-    public void explode() {
-        Flame flame = new Flame(x, y);
-        flame.render_explosion();
-        Music explodesound = new Music(Music.EXPLOSION);
-        explodesound.play();
-        alive = false;
-    }
-
-    // hiệu ứng flame sau khi bùm
-    public void explodeUpgrade() {
-        Flame flame = new Flame(x, y);
-        flame.setRadius(radius);
-        flame.render_explosion();
+    public void explodeHigh() {
+        Flame e = new Flame(x, y);
+        e.setRadius(radius);
+        e.render_explosion();
         //âm thanh bom nổ
         Music explodesound = new Music(Music.EXPLOSION);
         explodesound.play();
@@ -61,10 +44,19 @@ public class Bomb extends AnimatedEntity {
         r1 = getBounds();
         if (entity instanceof Bomber) {
             Bomber bomber = (Bomber) entity;
-            r2 = new Rectangle(bomber.getX() + 4, bomber.getY() + 4, Sprite.SCALED_SIZE * 3 / 4, Sprite.SCALED_SIZE * 3 / 4);
+            r2 = new Rectangle(bomber.getX() + 6, bomber.getY() + 6, Sprite.SCALED_SIZE * 2/3, Sprite.SCALED_SIZE * 2/3);
         } else {
             r2 = new Rectangle(entity.getX(), entity.getY(), Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         }
         return r1.intersects(r2);
+    }
+
+    
+    @Override
+    public void update() {
+        if (time_count ++ == 200) {
+            explodeHigh();
+        }
+        img = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, time_count, 60).getFxImage();
     }
 }
