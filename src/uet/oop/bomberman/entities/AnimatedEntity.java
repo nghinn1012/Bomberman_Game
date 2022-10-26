@@ -31,7 +31,8 @@ public abstract class AnimatedEntity extends Entity {
         this.speed = speed;
     }
 
-    // tạo ra một cái vùng hình chữ nhật, đỉnh trên cùng bên trái là toạ độ đang đứng
+    // tạo ra một cái vùng hình chữ nhật, đỉnh trên cùng bên trái là toạ độ đang
+    // đứng
     public Rectangle getBounds() {
         return new Rectangle(desX, desY, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
     }
@@ -59,8 +60,8 @@ public abstract class AnimatedEntity extends Entity {
     }
 
     public void stay() {
-        desX = x ;
-        desY = y ;
+        desX = x;
+        desY = y;
     }
 
     // ngăn chặn việc load hiệu ứng cao quá -> bị giật
