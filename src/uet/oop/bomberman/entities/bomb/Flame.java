@@ -2,123 +2,76 @@ package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.audio.MyAudioPlayer;
+import uet.oop.bomberman.audio.Music;
 import uet.oop.bomberman.entities.CollisionTypeCheck;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.fixed.Brick;
-import uet.oop.bomberman.entities.fixed.Wall;
+import uet.oop.bomberman.entities.block.Brick;
+import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
 
-
 public class Flame extends Entity implements CollisionTypeCheck {
+    public int radius;
+    private int direction;
+    private int time = 0;
     private int left;
     private int right;
     private int top;
     private int down;
-    public int radius;
-    private int size = Sprite.SCALED_SIZE;
-    private int direction;
-    private int time = 0;
 
-    public Flame(int x, int y, Image image, int direction){
+    public Flame(int x, int y, Image image, int direction) {
         super(x, y);
         this.img = image;
         this.direction = direction;
     }
 
-    public Flame(int x, int y, Image image){
+    public Flame(int x, int y, Image image) {
         super(x, y);
         this.img = image;
         this.radius = 2;
     }
 
-    public Flame(int x, int y){
-        super(x,y);
+    public Flame(int x, int y) {
+        super(x, y);
     }
 
     public void setRadius(int radius) {
         this.radius = radius;
     }
 
+    // update sau khi xong 20s
     @Override
-    public void update(){
-        if(time < 20){
-            time ++;
+    public void update() {
+        if (time < 20) {
+            time++;
             setImg();
         } else
             BombermanGame.flameList.remove(this);
 
     }
 
-    public void render_explosion(){
-        Right();
-        Left();
+    // render flame ra bốn phía
+    public void render_explosion() {
         Top();
         Down();
+        Left();
+        Right();
         create_explosion();
 
     }
 
-    private void create_explosion(){
-        BombermanGame.flameList.add(new Flame(x, y, Sprite.bomb_exploded.getFxImage(),0));
-        //BombermanGame.explosionList.add(new explosion(x, y, Sprite.bo.getFxImage(),4));
-        for(int i = 0; i < right; i++){
-            Flame e = new Flame(x + size*(i + 1), y);
-            if(i == right - 1) {
-                e.img = Sprite.explosion_horizontal_right_last.getFxImage();
-                e.direction = 2;
-            } else{
-                e.img = Sprite.explosion_horizontal.getFxImage();
-                e.direction = 1;
-            }
-            BombermanGame.flameList.add(e);
-        }
-
-        for(int i = 0; i < left; i++){
-            Flame e = new Flame(x - size*(i + 1), y);
-            if(i == left - 1) {
-                e.img = Sprite.explosion_horizontal_left_last.getFxImage();
-                e.direction = 3;
-            } else{
-                e.img = Sprite.explosion_horizontal.getFxImage();
-                e.direction = 1;
-            }
-            BombermanGame.flameList.add(e);
-        }
-
-        for(int i = 0; i < top; i++){
-            Flame e = new Flame(x , y - size*(i + 1));
-            if(i == top - 1) {
-                e.img = Sprite.explosion_vertical_top_last.getFxImage();
-                e.direction = 5;
-            } else{
-                e.img = Sprite.explosion_vertical.getFxImage();
-                e.direction = 4;
-            }
-            BombermanGame.flameList.add(e);
-        }
-
-        for(int i = 0; i < down; i++){
-            Flame e = new Flame(x, y + size*(i + 1));
-            if(i == right - 1) {
-                e.img = Sprite.explosion_vertical_down_last.getFxImage();
-                e.direction = 6;
-            } else{
-                e.img = Sprite.explosion_vertical.getFxImage();
-                e.direction = 4;
-            }
-            BombermanGame.flameList.add(e);
-        }
-    }
+    // xử lý về bên phải, trái, trên, dưới
     private void Right() {
         for (int i = 0; i < radius; i++) {
-            Rectangle ex_right = new Rectangle(x + size*(i + 1), y, size, size);
+            // tạo biên hình cn
+            Rectangle ex_right = new Rectangle(x + Sprite.SCALED_SIZE * (i + 1), y, Sprite.SCALED_SIZE,
+                    Sprite.SCALED_SIZE);
+            // nếu va chạm với wall thì dừng, nếu là brick thì +1 (phá) xong dừng
             if (collisionType(ex_right) instanceof Wall) {
                 right = i;
                 return;
-            } else if(collisionType(ex_right) instanceof Brick) {
+            } else if (collisionType(ex_right) instanceof Brick) {
                 right = i + 1;
                 return;
             }
@@ -128,11 +81,12 @@ public class Flame extends Entity implements CollisionTypeCheck {
 
     private void Left() {
         for (int i = 0; i < radius; i++) {
-            Rectangle ex_left = new Rectangle(x - size*(i + 1), y, size, size);
+            Rectangle ex_left = new Rectangle(x - Sprite.SCALED_SIZE * (i + 1), y, Sprite.SCALED_SIZE,
+                    Sprite.SCALED_SIZE);
             if (collisionType(ex_left) instanceof Wall) {
                 left = i;
                 return;
-            } else if(collisionType(ex_left) instanceof Brick) {
+            } else if (collisionType(ex_left) instanceof Brick) {
                 left = i + 1;
                 return;
             }
@@ -142,11 +96,12 @@ public class Flame extends Entity implements CollisionTypeCheck {
 
     private void Top() {
         for (int i = 0; i < radius; i++) {
-            Rectangle ex_top = new Rectangle(x, y - size*(i + 1), size, size);
+            Rectangle ex_top = new Rectangle(x, y - Sprite.SCALED_SIZE * (i + 1), Sprite.SCALED_SIZE,
+                    Sprite.SCALED_SIZE);
             if (collisionType(ex_top) instanceof Wall) {
                 top = i;
                 return;
-            } else if(collisionType(ex_top) instanceof Brick) {
+            } else if (collisionType(ex_top) instanceof Brick) {
                 top = i + 1;
                 return;
             }
@@ -156,39 +111,90 @@ public class Flame extends Entity implements CollisionTypeCheck {
 
     private void Down() {
         for (int i = 0; i < radius; i++) {
-            Rectangle ex_down = new Rectangle(x, y + size*(i + 1), size, size);
+            Rectangle ex_down = new Rectangle(x, y + Sprite.SCALED_SIZE * (i + 1), Sprite.SCALED_SIZE,
+                    Sprite.SCALED_SIZE);
             if (collisionType(ex_down) instanceof Wall) {
                 down = i;
                 return;
-            } else if(collisionType(ex_down) instanceof Brick) {
+            } else if (collisionType(ex_down) instanceof Brick) {
                 down = i + 1;
                 return;
             }
             down = i + 1;
         }
     }
-    private static boolean isCollisionsWall(Rectangle r){
-        for(Entity e : BombermanGame.stillObjects){
-            Rectangle r2 = e.getBounds();
-            if(r.intersects(r2)){
-                if(e instanceof Wall)
-                    return true;
-            }
-        }
-        return false;
-    }
 
     @Override
-    public Object collisionType(Rectangle r){
-        for(Entity e : BombermanGame.stillObjects){
-            Rectangle r2 = e.getBounds();
-            if(r.intersects(r2)){
-                return e;
+    // kiểm tra xem có giao biên không
+    public Object collisionType(Rectangle rec) {
+        for (Entity entity : BombermanGame.stillObjects) {
+            Rectangle rec2 = entity.getBounds();
+            if (rec.intersects(rec2)) {
+                return entity;
             }
         }
-        return r;
+        return rec;
     }
 
+     // xử lý nổ
+     private void create_explosion() {
+        Flame f = new Flame(x, y, Sprite.bomb_exploded.getFxImage(), 0);
+        BombermanGame.flameList.add(f);
+        for (int i = 0; i < left; i++) {
+            Flame temp = new Flame(x - Sprite.SCALED_SIZE * (i + 1), y);
+            // là cái cuối thì render last
+            if (i == left - 1) {
+                temp.img = Sprite.explosion_horizontal_left_last.getFxImage();
+                temp.direction = 3;
+            } else {
+                temp.img = Sprite.explosion_horizontal.getFxImage();
+                temp.direction = 1;
+            }
+            BombermanGame.flameList.add(temp);
+        }
+
+        for (int i = 0; i < right; i++) {
+            Flame temp = new Flame(x + Sprite.SCALED_SIZE * (i + 1), y);
+            // là cái cuối thì render last
+            if (i == right - 1) {
+                temp.img = Sprite.explosion_horizontal_right_last.getFxImage();
+                temp.direction = 2;
+            } else {
+                temp.img = Sprite.explosion_horizontal.getFxImage();
+                temp.direction = 1;
+            }
+            BombermanGame.flameList.add(temp);
+        }
+
+        for (int i = 0; i < top; i++) {
+            Flame temp = new Flame(x, y - Sprite.SCALED_SIZE * (i + 1));
+            // là cái cuối thì render last
+            if (i == top - 1) {
+                temp.img = Sprite.explosion_vertical_top_last.getFxImage();
+                temp.direction = 5;
+            } else {
+                temp.img = Sprite.explosion_vertical.getFxImage();
+                temp.direction = 4;
+            }
+            BombermanGame.flameList.add(temp);
+        }
+
+        for (int i = 0; i < down; i++) {
+            Flame temp = new Flame(x, y + Sprite.SCALED_SIZE * (i + 1));
+            // là cái cuối thì render last
+            if (i == right - 1) {
+                temp.img = Sprite.explosion_vertical_down_last.getFxImage();
+                temp.direction = 6;
+            } else {
+                temp.img = Sprite.explosion_vertical.getFxImage();
+                temp.direction = 4;
+            }
+            BombermanGame.flameList.add(temp);
+        }
+    }
+
+
+    // xử lý hiệu ứng cho từng phần
     private void setImg() {
         switch (direction) {
             case 0:
@@ -196,28 +202,29 @@ public class Flame extends Entity implements CollisionTypeCheck {
                         Sprite.bomb_exploded2, time, 20).getFxImage();
                 break;
             case 1:
-                img = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1
-                        ,Sprite.explosion_horizontal2,time,20).getFxImage();
+                img = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1,
+                        Sprite.explosion_horizontal2, time, 20).getFxImage();
                 break;
             case 2:
-                img = Sprite.movingSprite(Sprite.explosion_horizontal_right_last, Sprite.explosion_horizontal_right_last1
-                        ,Sprite.explosion_horizontal_right_last2, time,20).getFxImage();
+                img = Sprite.movingSprite(Sprite.explosion_horizontal_right_last,
+                        Sprite.explosion_horizontal_right_last1, Sprite.explosion_horizontal_right_last2, time, 20)
+                        .getFxImage();
                 break;
             case 3:
-                img = Sprite.movingSprite(Sprite.explosion_horizontal_left_last, Sprite.explosion_horizontal_left_last1
-                        ,Sprite.explosion_horizontal_left_last2, time,20).getFxImage();
+                img = Sprite.movingSprite(Sprite.explosion_horizontal_left_last, Sprite.explosion_horizontal_left_last1,
+                        Sprite.explosion_horizontal_left_last2, time, 20).getFxImage();
                 break;
             case 4:
-                img = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1
-                        ,Sprite.explosion_vertical2, time,20).getFxImage();
+                img = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1,
+                        Sprite.explosion_vertical2, time, 20).getFxImage();
                 break;
             case 5:
-                img = Sprite.movingSprite(Sprite.explosion_vertical_top_last, Sprite.explosion_vertical_top_last1
-                        ,Sprite.explosion_vertical_top_last2, time,20).getFxImage();
+                img = Sprite.movingSprite(Sprite.explosion_vertical_top_last, Sprite.explosion_vertical_top_last1,
+                        Sprite.explosion_vertical_top_last2, time, 20).getFxImage();
                 break;
             case 6:
-                img = Sprite.movingSprite(Sprite.explosion_vertical_down_last, Sprite.explosion_vertical_down_last1
-                        ,Sprite.explosion_vertical_down_last2, time,20).getFxImage();
+                img = Sprite.movingSprite(Sprite.explosion_vertical_down_last, Sprite.explosion_vertical_down_last1,
+                        Sprite.explosion_vertical_down_last2, time, 20).getFxImage();
                 break;
         }
     }
