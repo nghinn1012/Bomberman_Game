@@ -3,7 +3,7 @@ package uet.oop.bomberman.entities.bomb;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.audio.Music;
-import uet.oop.bomberman.entities.CollisionTypeCheck;
+import uet.oop.bomberman.entities.CheckCollision;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.block.Brick;
 import uet.oop.bomberman.entities.block.Wall;
@@ -11,7 +11,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
 
-public class Flame extends Entity implements CollisionTypeCheck {
+public class Flame extends Entity implements CheckCollision {
     public int radius;
     private int direction;
     private int time = 0;

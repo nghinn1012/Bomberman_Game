@@ -20,6 +20,7 @@ public abstract class AnimatedEntity extends Entity {
     protected int right = 0;
     protected int up = 0;
     protected int down = 0;
+    public Rectangle getBounds;
 
     public AnimatedEntity(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
@@ -58,8 +59,8 @@ public abstract class AnimatedEntity extends Entity {
     }
 
     public void stay() {
-        desX = x + x;
-        desY = y + y;
+        desX = x ;
+        desY = y ;
     }
 
     // ngăn chặn việc load hiệu ứng cao quá -> bị giật

@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static uet.oop.bomberman.audio.MyAudioPlayer.Loopable.NONELOOP;
+import static uet.oop.bomberman.audio.Music.Loopable.NONELOOP;
 
-public class MyAudioPlayer implements Runnable {
+public class Music implements Runnable {
 
     // Tên file các audio
     public static final String BACKGROUND_MUSIC = "background_music";
@@ -31,7 +31,7 @@ public class MyAudioPlayer implements Runnable {
     // Mặc định không phát lại
     private Loopable loopable = NONELOOP;
 
-    public MyAudioPlayer(String fileName) {
+    public Music(String fileName) {
         String path = "/audio/" + fileName + ".wav";
 
         try {

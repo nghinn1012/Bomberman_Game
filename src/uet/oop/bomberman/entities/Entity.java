@@ -7,7 +7,6 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
 
-
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
@@ -57,6 +56,11 @@ public abstract class Entity {
         this.alive = alive;
     }
 
+    public void setImg(Image img) {
+        this.img = img;
+    };
+
+    // mục đích của getBound này là xác định vùng bao của đối tượng
     public Rectangle getBounds() {
         return new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
     }

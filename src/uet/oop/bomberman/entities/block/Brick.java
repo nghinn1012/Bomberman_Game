@@ -9,8 +9,8 @@ public class Brick extends Block {
     // contructor 
     public Brick(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-        setLayer(3);
         alive = true;
+        setLayer(3);
     }
 
     @Override

@@ -7,14 +7,18 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import uet.oop.bomberman.audio.MyAudioPlayer;
+import uet.oop.bomberman.audio.Music;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.Items.BombItem;
+import uet.oop.bomberman.entities.Items.FlameItem;
+import uet.oop.bomberman.entities.Items.Items;
+import uet.oop.bomberman.entities.Items.SpeedItem;
+import uet.oop.bomberman.entities.block.Brick;
+import uet.oop.bomberman.entities.block.Grass;
+import uet.oop.bomberman.entities.block.Portal;
+import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
-import uet.oop.bomberman.entities.fixed.Brick;
-import uet.oop.bomberman.entities.fixed.Grass;
-import uet.oop.bomberman.entities.fixed.Portal;
-import uet.oop.bomberman.entities.fixed.Wall;
 import uet.oop.bomberman.entities.liveEntities.Bomber;
 import uet.oop.bomberman.entities.liveEntities.enemies.Balloon;
 import uet.oop.bomberman.entities.liveEntities.enemies.Doll;
@@ -22,11 +26,6 @@ import uet.oop.bomberman.entities.liveEntities.enemies.Enemy;
 import uet.oop.bomberman.entities.liveEntities.enemies.Kondoria;
 import uet.oop.bomberman.entities.liveEntities.enemies.Minvo;
 import uet.oop.bomberman.entities.liveEntities.enemies.Oneal;
-import uet.oop.bomberman.entities.powerUps.BombItem;
-import uet.oop.bomberman.entities.powerUps.FlameItem;
-import uet.oop.bomberman.entities.powerUps.Item;
-import uet.oop.bomberman.entities.powerUps.SpeedItem;
-import uet.oop.bomberman.graphics.JPANEL;
 import uet.oop.bomberman.graphics.Sprite;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -37,7 +36,6 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JPanel;
 
 public class BombermanGame extends Application {
     
@@ -60,12 +58,12 @@ public class BombermanGame extends Application {
     public static Bomber myBomber;
     public static int[][] map = new int[HEIGHT][WIDTH];
     public static int[][] mapAStar = new int[HEIGHT][WIDTH];
-    public static MyAudioPlayer musicPlayer = new MyAudioPlayer(MyAudioPlayer.BACKGROUND_MUSIC);
+    public static Music musicPlayer = new Music(Music.BACKGROUND_MUSIC);
     public static String time;;
-    public MyAudioPlayer getMusicPlayer() {
+    public Music getMusicPlayer() {
         return musicPlayer;
     }
-    public void setMusicPlayer(MyAudioPlayer _musicPlayer) {
+    public void setMusicPlayer(Music _musicPlayer) {
         musicPlayer = _musicPlayer;
     }
     public static void main(String[] args) {
@@ -291,13 +289,13 @@ public class BombermanGame extends Application {
         for (Entity stillObject : stillObjects) {
             Rectangle r2 = stillObject.getBounds();
             if (r1.intersects(r2)) {
-                if (myBomber.getLayer() == stillObject.getLayer() && stillObject instanceof Item) {
+                if (myBomber.getLayer() == stillObject.getLayer() && stillObject instanceof Items) {
                     if (stillObject instanceof BombItem) {
                         startBomb ++;
-                        myBomber.setBombRemain(startBomb);
+                        myBomber.setbombO(startBomb);
                         stillObjects.remove(stillObject);
                         // âm thanh ăn item
-                        MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.POWER_UP);
+                        Music powerUpAudio = new Music(Music.POWER_UP);
                         powerUpAudio.play();
                         map[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
                         mapAStar[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
@@ -306,7 +304,7 @@ public class BombermanGame extends Application {
                         myBomber.setSpeed(startSpeed);
                         stillObjects.remove(stillObject);
                         // âm thanh ăn item
-                        MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.POWER_UP);
+                        Music powerUpAudio = new Music(Music.POWER_UP);
                         powerUpAudio.play();
                         map[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
                         mapAStar[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
@@ -315,7 +313,7 @@ public class BombermanGame extends Application {
                         myBomber.setRadius(startFlame);
                         stillObjects.remove(stillObject);
                         // âm thanh ăn item
-                        MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.POWER_UP);
+                        Music powerUpAudio = new Music(Music.POWER_UP);
                         powerUpAudio.play();
                         map[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
                         mapAStar[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
@@ -326,7 +324,7 @@ public class BombermanGame extends Application {
                         //pass level
                         load(++ level);
                         // âm thanh ăn item
-                        MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.POWER_UP);
+                        Music powerUpAudio = new Music(Music.POWER_UP);
                         powerUpAudio.play();
                     }
                 } else if(myBomber.getLayer() >= stillObject.getLayer()) {
@@ -355,7 +353,7 @@ public class BombermanGame extends Application {
                             count.cancel();
                         }
                     }, 500,1);
-                    MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.DEAD);
+                    Music powerUpAudio = new Music(Music.DEAD);
                     powerUpAudio.play();
 
                 }
@@ -367,7 +365,7 @@ public class BombermanGame extends Application {
             Rectangle r2 = enemy.getBounds();
             for (Bomb bomb : bombs) {
                 Rectangle r3 = bomb.getBounds();
-                if (!bomb.isAllowedToPassThrough(enemy) && r2.intersects(r3)) {
+                if (!bomb.canPass(enemy) && r2.intersects(r3)) {
                     enemy.stay();
                     break;
                 }
@@ -412,7 +410,7 @@ public class BombermanGame extends Application {
             Rectangle r1 = flame.getBounds();
             for (Entity stillObject : stillObjects) {
                 Rectangle r2 = stillObject.getBounds();
-                if (r1.intersects(r2) && !(stillObject instanceof Item)) {
+                if (r1.intersects(r2) && !(stillObject instanceof Items)) {
                     stillObject.setAlive(false);
                     map[stillObject.getY() / Sprite.SCALED_SIZE][stillObject.getX() / Sprite.SCALED_SIZE] = 0;
                     mapAStar[stillObject.getY() / Sprite.SCALED_SIZE][stillObject.getX() / Sprite.SCALED_SIZE] = 0;
@@ -422,7 +420,7 @@ public class BombermanGame extends Application {
                 Rectangle r2 = enemy.getBounds();
                 if (r1.intersects(r2)) {
                     enemy.setAlive(false);
-                    MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.ENEMY_DEAD);
+                    Music powerUpAudio = new Music(Music.ENEMY_DEAD);
                     powerUpAudio.play();
                 }
             }
@@ -441,7 +439,7 @@ public class BombermanGame extends Application {
                             count.cancel();
                         }
                     }, 500, 1);
-                    MyAudioPlayer powerUpAudio = new MyAudioPlayer(MyAudioPlayer.DEAD);
+                    Music powerUpAudio = new Music(Music.DEAD);
                     powerUpAudio.play();
 
                 }

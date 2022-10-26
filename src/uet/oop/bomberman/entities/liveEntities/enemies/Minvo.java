@@ -2,7 +2,7 @@ package uet.oop.bomberman.entities.liveEntities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.CollisionTypeCheck;
+import uet.oop.bomberman.entities.CheckCollision;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.liveEntities.enemies.algorithm.BFS;
 import uet.oop.bomberman.entities.liveEntities.enemies.algorithm.Point;
@@ -12,7 +12,7 @@ import static uet.oop.bomberman.BombermanGame.myBomber;
 
 import java.awt.*;
 
-public class Minvo extends Enemy implements CollisionTypeCheck {
+public class Minvo extends Enemy implements CheckCollision {
     //phục vụ việc lưu tọa độ tránh lặp lại quá nhiều lần tìm BFS gây lag
     private int prevBombX = 0;
     private int prevBombY = 0;

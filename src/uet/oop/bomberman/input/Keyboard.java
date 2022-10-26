@@ -9,9 +9,8 @@ import javafx.scene.input.KeyEvent;
  */
 public class Keyboard {
 
-    private boolean[] keys = new boolean[120]; //120 is enough to this game
+    private boolean[] keys = new boolean[120]; 
     public boolean up, down, left, right, space, pause;
-    //public boolean vk_a, vk_s, vk_d, vk_w, vk_j;
     public Keyboard() {
 
     }
