@@ -1,15 +1,18 @@
 package uet.oop.bomberman.entities;
 
-import javafx.scene.image.Image;
-
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
 
+import javafx.scene.image.Image;
+
+/**
+ * entity có hiệu ứng hoạt hình
+ */
 
 public abstract class AnimatedEntity extends Entity {
     protected int animate = 0;
-    protected final int MAX_ANIMATE = 7500; //save the animation status and dont let this get too big
+    protected final int MAX_VAL = 7500; // max của trạng thái load ảnh
     protected int desX = x;
     protected int desY = y;
     protected int speed;
@@ -27,6 +30,12 @@ public abstract class AnimatedEntity extends Entity {
         this.speed = speed;
     }
 
+    // tạo ra một cái vùng hình chữ nhật, đỉnh trên cùng bên trái là toạ độ đang đứng
+    public Rectangle getBounds() {
+        return new Rectangle(desX, desY, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+    }
+
+    // tạo hiệu ứng hoạt hình về 4 hướng
     public void goLeft() {
         desX = x - speed;
     }
@@ -34,6 +43,7 @@ public abstract class AnimatedEntity extends Entity {
     public void goRight() {
         desX = x + speed;
     }
+
     public void goUp() {
         desY = y - speed;
     }
@@ -48,19 +58,16 @@ public abstract class AnimatedEntity extends Entity {
     }
 
     public void stay() {
-        desX = x;
-        desY = y;
+        desX = x + x;
+        desY = y + y;
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(desX, desY, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
-    }
-
+    // ngăn chặn việc load hiệu ứng cao quá -> bị giật
     protected void animate() {
-        if(animate < MAX_ANIMATE) {
+        if (animate < MAX_VAL) {
             animate++;
         } else {
-            animate = 0; //reset animation
+            animate = 0; // lớn hơn max thì reset
         }
     }
 

@@ -2,8 +2,6 @@ package uet.oop.bomberman.entities.liveEntities.enemies;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.audio.MyAudioPlayer;
-import uet.oop.bomberman.entities.liveEntities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.Random;
@@ -19,6 +17,7 @@ public class Balloon extends Enemy {
         alive = true;
     }
 
+    // sống thì cứ đi random, chết thì render
     @Override
     public void update() {
         if(isAlive()) {
@@ -29,8 +28,6 @@ public class Balloon extends Enemy {
         } else if(animated < 30){
             animated ++;
             img = Sprite.balloom_dead.getFxImage();
-
-
         }else
             BombermanGame.enemies.remove(this);
     }
@@ -61,6 +58,7 @@ public class Balloon extends Enemy {
         generateDirection();
     }
 
+    // random đường đi 1 trong 4 hướng
     @Override
     public void generateDirection() {
         Random random = new Random();

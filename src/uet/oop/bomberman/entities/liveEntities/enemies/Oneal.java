@@ -13,21 +13,11 @@ import java.util.Random;
 
 public class Oneal extends Enemy {
     private int direction;
-    //protected Bomber bomber;
-    private Rectangle onealRadius = new Rectangle(x - 160, y - 160, 160 * 2, 160 * 2);
+    Random nR = new Random();
 
-//    public Oneal(int xUnit, int yUnit, Image img, Bomber bomber) {
-//        super(xUnit, yUnit, img);
-//        //this.bomber = bomber;
-//        setLayer(1);
-//        setSpeed(2);
-//        generateDirection();
-//    }
     public Oneal(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
-    //this.bomber = bomber;
         setLayer(1);
-        setSpeed(2);
         generateDirection();
     }
 
@@ -57,27 +47,23 @@ public class Oneal extends Enemy {
         generateDirection();
     }
 
-
-
     @Override
     public void update() {
         generateDirection();
+        speed = nR.nextInt(3);
         if (direction == 0) goLeft();
         if (direction == 1) goRight();
         if (direction == 2) goUp();
         if (direction == 3) goDown();
-        if(! BombermanGame.myBomber.isAlive()) {
+        if(!BombermanGame.myBomber.isAlive()) {
             restartEnemy();
         }
-
-        //if(super.x / Sprite.SCALED_SIZE == )
 
         if(isAlive()){
 
         } else if(animated < 30) {
             super.stay();
             animated++;
-            //img = Sprite.oneal_dead.getFxImage();
             img = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2,
                    Sprite.mob_dead3, animate, 10).getFxImage();
         } else
@@ -86,21 +72,12 @@ public class Oneal extends Enemy {
 
     @Override
     public void generateDirection() {
-        Rectangle re = BombermanGame.myBomber.getBounds();
         Bomber bomber = BombermanGame.myBomber;
-        if (onealRadius.intersects(re)) {
-           if (bomber.getX() / Sprite.SCALED_SIZE - x / Sprite.SCALED_SIZE < 0) direction = 0;
-           if (bomber.getX() / Sprite.SCALED_SIZE - x / Sprite.SCALED_SIZE > 0) direction = 1;
-           if (bomber.getY() / Sprite.SCALED_SIZE - y / Sprite.SCALED_SIZE < 0) direction = 2;
-           if (bomber.getY() / Sprite.SCALED_SIZE - y / Sprite.SCALED_SIZE > 0) direction = 3;
-        } else {
-           Random random = new Random();
-           direction = random.nextInt(4);
-        }
         if (bomber.getX() / Sprite.SCALED_SIZE - x / Sprite.SCALED_SIZE < 0) direction = 0;
         if (bomber.getX() / Sprite.SCALED_SIZE - x / Sprite.SCALED_SIZE > 0) direction = 1;
         if (bomber.getY() / Sprite.SCALED_SIZE - y / Sprite.SCALED_SIZE < 0) direction = 2;
         if (bomber.getY() / Sprite.SCALED_SIZE - y / Sprite.SCALED_SIZE > 0) direction = 3;
+
     }
 
     @Override
