@@ -15,39 +15,11 @@ public class Keyboard {
 
     }
     public void update() {
-        up = keys[KeyCode.UP.getCode()] || keys[KeyCode.W.getCode()];
-        down = keys[KeyCode.DOWN.getCode()] || keys[KeyCode.S.getCode()];
-        left = keys[KeyCode.LEFT.getCode()] || keys[KeyCode.A.getCode()];
-        right = keys[KeyCode.RIGHT.getCode()] || keys[KeyCode.D.getCode()];
+        left = keys[KeyCode.A.getCode()] || keys[KeyCode.LEFT.getCode()];
+        right = keys[KeyCode.D.getCode()] || keys[KeyCode.RIGHT.getCode()];
+        up = keys[KeyCode.W.getCode()] || keys[KeyCode.UP.getCode()];
+        down = keys[KeyCode.S.getCode()] || keys[KeyCode.DOWN.getCode()];
         space = keys[KeyCode.SPACE.getCode()];
 
-    }
-
-    private void createListener() {
-//        Controller.scene.setOnKeyPressed(keyEvent -> {
-//            if (keyEvent.getCode() == KeyCode.LEFT) {
-//                keys[keyEvent.getCode().getCode()] = true;
-//            } else if (keyEvent.getCode() == KeyCode.RIGHT) {
-//                keys[keyEvent.getCode().getCode()] = true;
-//            } else if (keyEvent.getCode() == KeyCode.UP) {
-//                keys[keyEvent.getCode().getCode()] = true;
-//            } else if (keyEvent.getCode() == KeyCode.DOWN) {
-//                keys[keyEvent.getCode().getCode()] = true;
-//            }
-//        });
-//
-//        Controller.scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-//            public void handle(KeyEvent keyEvent) {
-//                if (keyEvent.getCode() == KeyCode.LEFT) {
-//                    keys[keyEvent.getCode().getCode()] = false;
-//                } else if (keyEvent.getCode() == KeyCode.RIGHT) {
-//                    keys[keyEvent.getCode().getCode()] = false;
-//                } else if (keyEvent.getCode() == KeyCode.UP) {
-//                    keys[keyEvent.getCode().getCode()] = false;
-//                } else if (keyEvent.getCode() == KeyCode.DOWN) {
-//                    keys[keyEvent.getCode().getCode()] = false;
-//                }
-//            }
-//        });
     }
 }

@@ -154,42 +154,42 @@ public class AStar {
         Collections.sort(this.open);
     }
 
-    public static void main(String[] args) {
-        // -1 = blocked
-        // 0+ = additional movement cost
-        int[][] maze =  {
-               {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 1, 1, 1, 1, 1},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 1, 1, 1, 1, 1},
-                {0, 0, 0, 0, 0, 1, 0, 0, 0},
-        };
-        int [][] maze1 = maze;
-        AStar as = new AStar(maze1, 3, 2, true);
-        List<Node> path = as.findPathTo(1, 1);
-        if (path != null) {
-            path.forEach((n) -> {
-                System.out.print("[" + n.x + ", " + n.y + "] ");
-                maze1[n.y][n.x] = -1;
-            });
-            System.out.printf("\nTotal cost: %.02f\n", path.get(path.size() - 1).g);
+    // public static void main(String[] args) {
+    //     // -1 = blocked
+    //     // 0+ = additional movement cost
+    //     int[][] maze =  {
+    //            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    //             {0, 0, 0, 1, 1, 1, 1, 1, 1},
+    //             {0, 0, 0, 1, 0, 0, 0, 0, 0},
+    //             {0, 0, 0, 0, 1, 1, 1, 1, 1},
+    //             {0, 0, 0, 0, 0, 1, 0, 0, 0},
+    //     };
+    //     int [][] maze1 = maze;
+    //     AStar as = new AStar(maze1, 3, 2, true);
+    //     List<Node> path = as.findPathTo(1, 1);
+    //     if (path != null) {
+    //         path.forEach((n) -> {
+    //             System.out.print("[" + n.x + ", " + n.y + "] ");
+    //             maze1[n.y][n.x] = -1;
+    //         });
+    //         System.out.printf("\nTotal cost: %.02f\n", path.get(path.size() - 1).g);
 
-            for (int[] maze_row : maze1) {
-                for (int maze_entry : maze_row) {
-                    switch (maze_entry) {
-                        case 0:
-                            System.out.print("_");
-                            break;
-                        case -1:
-                            System.out.print("*");
-                            break;
-                        default:
-                            System.out.print("#");
-                    }
-                }
-                System.out.println();
-            }
-        }
-    }
+    //         for (int[] maze_row : maze1) {
+    //             for (int maze_entry : maze_row) {
+    //                 switch (maze_entry) {
+    //                     case 0:
+    //                         System.out.print("_");
+    //                         break;
+    //                     case -1:
+    //                         System.out.print("*");
+    //                         break;
+    //                     default:
+    //                         System.out.print("#");
+    //                 }
+    //             }
+    //             System.out.println();
+    //         }
+    //     }
+    // }
 }
 

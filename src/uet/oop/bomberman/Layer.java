@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 public class Layer implements Comparator<Entity> {
         @Override
-        public int compare(Entity o1, Entity o2) {
-                return Integer.compare(o2.getLayer(), o1.getLayer());
+        public int compare(Entity obj1, Entity obj2) {
+                return Integer.compare(obj2.getLayer(), obj1.getLayer());
         }
 }

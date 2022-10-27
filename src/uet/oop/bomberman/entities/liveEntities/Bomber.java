@@ -23,11 +23,11 @@ public class Bomber extends AnimatedEntity {
 
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
-        setLayer(1);
-        setSpeed(2);
-        setbombO(1);
-        setPower(1);
-        setRadius(1);
+        layer = 1;
+        speed = 2;
+        bombO = 1;
+        power = 1;
+        radius = 1;
     }
 
     public void setRadius(int radius) {
@@ -64,7 +64,7 @@ public class Bomber extends AnimatedEntity {
         }
         //animate();
         if(!isAlive()) {
-            timeAf ++;
+            timeAf++;
             die();
         }
     }
@@ -101,6 +101,16 @@ public class Bomber extends AnimatedEntity {
         }
     }
 
+    
+    // hiện hiệu ứng die
+    public void die() {
+        if(timeAf <= 40) {
+            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
+                    Sprite.player_dead3, timeAf, 20).getFxImage();
+        }
+
+    }
+
     // dịch chuyển 4 phía
     public void goLeft() {
         super.goLeft();
@@ -124,13 +134,13 @@ public class Bomber extends AnimatedEntity {
 
     public void placeBomb() {
         if (bombO > 0) {
-            int xB = (int) Math.round((x + 8) / (double) Sprite.SCALED_SIZE);
-            int yB = (int) Math.round((y + 8) / (double) Sprite.SCALED_SIZE);
+            int xBom = (int) Math.round((x + 6) / (double) Sprite.SCALED_SIZE);
+            int yBom = (int) Math.round((y + 6) / (double) Sprite.SCALED_SIZE);
             for (Bomb bomb : bombs) {
-                if (xB * Sprite.SCALED_SIZE == bomb.getX() && yB * Sprite.SCALED_SIZE == bomb.getY()) return;
+                if (xBom * Sprite.SCALED_SIZE == bomb.getX() && yBom * Sprite.SCALED_SIZE == bomb.getY()) return;
             }
-            Bomb b = new Bomb(xB, yB, Sprite.bomb.getFxImage(), radius);
-            bombs.add(b);
+            Bomb check = new Bomb(xBom, yBom, Sprite.bomb.getFxImage(), radius);
+            bombs.add(check);
             bombO--;
         }
     }
@@ -149,15 +159,6 @@ public class Bomber extends AnimatedEntity {
 
     public boolean isAlive() {
         return alive;
-    }
-
-    // hiện hiệu ứng die
-    public void die() {
-        if(timeAf <= 45) {
-            img = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
-                    Sprite.player_dead3, timeAf, 20).getFxImage();
-        }
-
     }
 
     public int getPower() {

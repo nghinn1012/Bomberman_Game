@@ -9,19 +9,18 @@ import java.util.StringTokenizer;
 public class LevelFile extends Level {
     public void insertFile(String path) {
         try {
-            URL absPath = LevelFile.class.getResource("/levels/Level" + path + ".txt");
-            BufferedReader r = new BufferedReader(
-                    new InputStreamReader(absPath.openStream()));
-            String data = r.readLine();
-            StringTokenizer s = new StringTokenizer(data);
-            level_ = Integer.parseInt(s.nextToken());
-            height_ = Integer.parseInt(s.nextToken());
-            width_ = Integer.parseInt(s.nextToken());
-            lineTiles_ = new String[height_];
+            URL link = LevelFile.class.getResource("/levels/Level" + path + ".txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(link.openStream()));
+            String text = reader.readLine();
+            StringTokenizer str = new StringTokenizer(text);
+            level_ = Integer.parseInt(str.nextToken());
+            height_ = Integer.parseInt(str.nextToken());
+            width_ = Integer.parseInt(str.nextToken());
+            lines = new String[height_];
             for (int i = 0; i < height_; i++) {
-                lineTiles_[i] = r.readLine().substring(0,width_);
+                lines[i] = reader.readLine().substring(0,width_);
             }
-            r.close();
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

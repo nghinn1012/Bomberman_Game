@@ -54,7 +54,7 @@ public class Bomb extends AnimatedEntity {
     
     @Override
     public void update() {
-        if (time_count ++ == 200) {
+        if (time_count ++ == 150) {
             explodeHigh();
         }
         img = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, time_count, 60).getFxImage();

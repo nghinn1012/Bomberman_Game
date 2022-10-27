@@ -1,7 +1,7 @@
 package uet.oop.bomberman.level;
 public  class Level {
     protected int level_,width_, height_;
-    public String[] lineTiles_;
+    public String[] lines;
     Level() {
         level_ = 0;
         width_=0;
