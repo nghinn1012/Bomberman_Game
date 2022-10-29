@@ -12,14 +12,14 @@ import static uet.oop.bomberman.audio.Music.Loopable.NONELOOP;
 public class Music implements Runnable {
 
     // Tên file các audio
-    public static final String BACKGROUND_MUSIC = "background_music";
-    public static final String PLACE_BOMB = "place_bomb";
-    public static final String POWER_UP = "power_up";
-    public static final String EXPLOSION = "explosion";
-    public static final String DEAD = "dead";
-    public static final String ENEMY_DEAD = "dead2";
+    public static final String explosion = "explosion";
+    public static final String dead_bomber = "dead";
+    public static final String dead_enemy = "dead2";
+    public static final String BG = "background_music";
+    public static final String placebomb = "place_bomb";
+    public static final String powerup = "power_up";
 
-    private static boolean _muted = false;
+    private static boolean _isMuted = false;
 
     private Clip clip;
 
@@ -37,20 +37,20 @@ public class Music implements Runnable {
         try {
             URL defaultSound = getClass().getResource(path);
             AudioInputStream sound = AudioSystem.getAudioInputStream(defaultSound);
-            // load the sound into memory (a Clip)
+            // load clip
             clip = AudioSystem.getClip();
             clip.open(sound);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Sound: Malformed URL: " + e);
+            throw new RuntimeException(e);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Sound: Input/Output Error: " + e);
+            throw new RuntimeException(e);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
-            throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,14 +63,14 @@ public class Music implements Runnable {
     }
 
     public void play(){
-        if (!_muted) {
+        if (!_isMuted) {
             clip.setFramePosition(0);  // Chạy từ đầu
             clip.start();
         }
     }
 
     public void loop(){
-        if (!_muted) {
+        if (!_isMuted) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
@@ -91,8 +91,8 @@ public class Music implements Runnable {
     }
 
     public static void mute() {
-        _muted = !_muted;
-        if (_muted) {
+        _isMuted = !_isMuted;
+        if (_isMuted) {
             BombermanGame.musicPlayer.stop();
         } else {
             BombermanGame.musicPlayer.loop();
@@ -100,6 +100,6 @@ public class Music implements Runnable {
     }
 
     public static boolean isMuted() {
-        return _muted;
+        return _isMuted;
     }
 }
