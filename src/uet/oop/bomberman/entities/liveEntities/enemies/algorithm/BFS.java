@@ -1,29 +1,30 @@
 package uet.oop.bomberman.entities.liveEntities.enemies.algorithm;
 
+
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Queue;
 
 public class BFS {
 
     private static final boolean DEBUG = false;
 
-    // trả về một mảng point thể hiện đường đi trên map từ pos đến des
     public static Point[] findPath(final int[][] map,
                             final Point position,
                             final Point destination) {
-        boolean check = isOutOfMap(map, position.x, position.y)
-        || isOutOfMap(map, destination.x, destination.y)
-        || isBlocked(map, position.x, position.y)
-        || isBlocked(map, destination.x, destination.y);
-        if (check) {
+        if (isOutOfMap(map, position.x, position.y)
+                || isOutOfMap(map, destination.x, destination.y)
+                || isBlocked(map, position.x, position.y)
+                || isBlocked(map, destination.x, destination.y)) {
             return null;
         }
 
         Queue<Point> queue1 = new ArrayDeque<>();
         Queue<Point> queue2 = new ArrayDeque<>();
 
-        map[position.y][position.x] = -1;
         queue1.add(position);
+
+        map[position.y][position.x] = -1;
 
         for (int i = 2; !queue1.isEmpty(); i++) {
             if (queue1.size() >= map.length * map[0].length) {
@@ -63,14 +64,12 @@ public class BFS {
         return null;
     }
 
-    // check xem những toạ độ đó có hợp lệ k
     private static boolean isOutOfMap(final int[][] map,
-            final int x,
-            final int y) {
-        return x < 0 || y < 0 || y >= map[0].length || x >= map[0].length;
+                                      final int x,
+                                      final int y) {
+        return x < 0 || y < 0 || map.length <= y || map[0].length <= x;
     }
 
-    // check xem vị trí đó có chứa giá trị gì
     private static boolean isBlocked(final int[][] map, final int x, final int y) {
         final int i = map[y][x];
         return i < 0 || i == 1;
@@ -109,10 +108,10 @@ public class BFS {
     }
 
     private static void computeSolution(final int[][] map,
-            final int x,
-            final int y,
-            final int stepCount,
-            final Point[] optimalPath) {
+                                        final int x,
+                                        final int y,
+                                        final int stepCount,
+                                        final Point[] optimalPath) {
         if (isOutOfMap(map, x, y)
                 || map[y][x] == 0
                 || map[y][x] != -stepCount) {
@@ -126,12 +125,13 @@ public class BFS {
         lookAround(map, p, (x1, y1) -> computeSolution(map, x1, y1, stepCount - 1, optimalPath));
     }
 
-    private static void lookAround(final int[][] map,final Point p, final Callback callback) {
-        // callback.look(map, p.x, p.y + 1);
-        // callback.look(map, p.x, p.y + 1);
-        // callback.look(map, p.x, p.y - 1);
-        // callback.look(map, p.x, p.y - 1);
-    // kiểm tra bốn point xung quanh
+    private static void lookAround(final int[][] map,
+                                   final Point p,
+                                   final Callback callback) {
+//        callback.look(map, p.x, p.y + 1);
+//        callback.look(map, p.x, p.y + 1);
+//        callback.look(map, p.x, p.y - 1);
+//        callback.look(map, p.x, p.y - 1);
         callback.look(map, p.x + 1, p.y);
         callback.look(map, p.x - 1, p.y);
         callback.look(map, p.x, p.y + 1);
@@ -147,5 +147,36 @@ public class BFS {
         }
 
         void onLook(int x, int y);
+    }
+
+    public static void main(String[] args) {
+        int[][] myMap =
+                {
+                        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                        {1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1},
+                        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                };
+//                {
+//               {0, 0, 0, 0, 0, 0, 0, 0, 0},
+//                {0, 0, 0, 1, 0, 1, 1, 1, 1},
+//                {0, 0, 0, 1, 0, 0, 0, 0, 0},
+//                {0, 0, 0, 0, 0, 0, 1, 1, 0},
+//                {0, 0, 0, 0, 0, 1, 0, 0, 0},
+//        };
+
+        Point[] path = new BFS().findPath(myMap, new Point(8, 0), new Point(8, 2));
+        for (Point point : path) {
+            System.out.println(point.x + ", " + point.y);
+        }
     }
 }

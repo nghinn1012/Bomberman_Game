@@ -52,7 +52,7 @@ public class Bomber extends AnimatedEntity {
         if (placeBomb) {
             placeBomb();
             //âm thanh đặt bom
-            Music placeSound = new Music(Music.PLACE_BOMB);
+            Music placeSound = new Music(Music.placebomb);
             placeSound.play();
         }
         for (int i = 0; i < bombs.size(); i++) {

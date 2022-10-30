@@ -73,23 +73,6 @@ public class Minvo extends Enemy implements CheckCollision {
         if( !(BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE == prevBombX &&
                 BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE == prevBombY)) {
             path = BFS.findPath(BombermanGame.map, minvo, player);
-//            DEBUG: System.out.println(player.x + " " + player.y + "lala" + minvo.x + " " + minvo.y);
-//            for(int i = 0; i < 13; i ++) {
-//                for(int j = 0; j < 31; j ++) {
-//                    System.out.print(map[i][j] + ",");
-//                }
-//                System.out.println();
-//            }
-
-            if(path == null) {
-//                DEBUG: System.out.println("loi null");
-            } else {
-                //DEBUG:
-//                for (Point point : path) {
-//                    System.out.println(point.x + ", " + point.y);
-//                }
-//                DEBUG: System.out.println("end");
-            }
             prevBombX = BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE;
             prevBombY = BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE;
             changed = true;
@@ -119,52 +102,21 @@ public class Minvo extends Enemy implements CheckCollision {
                         direction = 2;
                     if ((double) BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE - (double) y / Sprite.SCALED_SIZE > 0)
                         direction = 3;
-                    // lỗi không đi được trọn vẹn vào ô kill nhân vật
                 } else if (path != null) {
                     double xPath = (double) Math.round((double) path[prevI].x * 100) / 100;
                     double yPath = (double) Math.round((double) path[prevI].y * 100) / 100;
-                    //                System.out.println(path[prevI].x + " " + path[prevI].y);
-                    //                System.out.println(BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE + " " +
-                    //                        BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE + "lala");
-                    //                System.out.println((double) this.getX() / Sprite.SCALED_SIZE + " " +
-                    //                        this.getY() / Sprite.SCALED_SIZE + "lala");
-//                    System.out.println((double) (this.x / Sprite.SCALED_SIZE) + " " +
-//                            yConverted + "lala");
-                    //                System.out.println("prevI" + prevI);
-
-                    //                if (path[prevI].x - xConverted == 0 && path[prevI].y - yConverted == 1) {
-                    //                    direction = 3;
-                    //                    System.out.println("one");
-                    //                } else if (path[prevI].x - xConverted == 0 && path[prevI].y - yConverted == -1) {
-                    //                    direction = 2;
-                    //                    System.out.println("two");
-                    //                } else if (path[prevI].x - xConverted == -1 && path[prevI].y - yConverted == 0) {
-                    //                    direction = 0;
-                    //                    System.out.println("three");
-                    //                } else if (path[prevI].x - xConverted == 1 && path[prevI].y - yConverted == 0) {
-                    //                    direction = 1;
-                    //                    System.out.println("four");
-                    //                } else if (path[prevI].x - xConverted == 0 && path[prevI].y - yConverted == 0) {
-                    //                    prevI ++;
-                    //                    System.out.println("five");
-                    //                }
 
                     if (xPath - xConverted == 0 && yPath - yConverted > 0) {
                         direction = 3;
-//                        System.out.println("one");
                     } else if (xPath - xConverted == 0 && yPath - yConverted < 0) {
                         direction = 2;
-//                        System.out.println("two");
                     } else if (xPath - xConverted < 0 && yPath - yConverted == 0) {
                         direction = 0;
-//                        System.out.println("three");
                     } else if (xPath - xConverted > 0 && yPath - yConverted == 0) {
                         direction = 1;
-//                        System.out.println("four");
                     } else if (xPath - xConverted == 0 && yPath - yConverted == 0) {
                         direction = 4;
                         prevI++;
-//                        System.out.println("five");
 
                     }
                 }
@@ -179,10 +131,7 @@ public class Minvo extends Enemy implements CheckCollision {
         generateDirection();
         if(! BombermanGame.myBomber.isAlive()) {
             restartEnemy();
-//            System.out.println(this.x / Sprite.SCALED_SIZE + " " + this.y / Sprite.SCALED_SIZE);
         } else {
-//        direction = 0;
-            //System.out.println(direction);
             if (direction == 0) goLeft();
             if (direction == 1) goRight();
             if (direction == 2) goUp();

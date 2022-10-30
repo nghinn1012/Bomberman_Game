@@ -32,7 +32,7 @@ public class Bomb extends AnimatedEntity {
         e.setRadius(radius);
         e.render_explosion();
         //âm thanh bom nổ
-        Music explodesound = new Music(Music.EXPLOSION);
+        Music explodesound = new Music(Music.explosion);
         explodesound.play();
         alive = false;
     }
