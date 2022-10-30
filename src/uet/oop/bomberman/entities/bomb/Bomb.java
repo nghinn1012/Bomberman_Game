@@ -1,10 +1,10 @@
 package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
-import uet.oop.bomberman.audio.Music;
 import uet.oop.bomberman.entities.AnimatedEntity;
-import uet.oop.bomberman.entities.liveEntities.Bomber;
+import uet.oop.bomberman.entities.EntityLive.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Music;
 
 import java.awt.*;
 
@@ -44,7 +44,7 @@ public class Bomb extends AnimatedEntity {
         r1 = getBounds();
         if (entity instanceof Bomber) {
             Bomber bomber = (Bomber) entity;
-            r2 = new Rectangle(bomber.getX() + 6, bomber.getY() + 6, Sprite.SCALED_SIZE * 2/3, Sprite.SCALED_SIZE * 2/3);
+            r2 = new Rectangle(bomber.getX() + 4, bomber.getY() + 4, Sprite.SCALED_SIZE * 3/4, Sprite.SCALED_SIZE *3/4);
         } else {
             r2 = new Rectangle(entity.getX(), entity.getY(), Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
         }

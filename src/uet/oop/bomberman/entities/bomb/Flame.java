@@ -2,12 +2,12 @@ package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.audio.Music;
 import uet.oop.bomberman.entities.CheckCollision;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.block.Brick;
 import uet.oop.bomberman.entities.block.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.sound.Music;
 
 import java.awt.*;
 
