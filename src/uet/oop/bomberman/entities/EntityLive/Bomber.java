@@ -132,6 +132,7 @@ public class Bomber extends AnimatedEntity {
         img = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, down++, 20).getFxImage();
     }
 
+    // đặt bomb
     public void placeBomb() {
         if (bombO > 0) {
             int xBom = (int) Math.round((x + 4) / (double) Sprite.SCALED_SIZE);

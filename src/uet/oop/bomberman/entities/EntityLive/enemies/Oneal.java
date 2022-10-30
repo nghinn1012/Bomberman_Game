@@ -4,11 +4,8 @@ import javafx.scene.image.Image;
 
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.EntityLive.Bomber;
-import uet.oop.bomberman.entities.EntityLive.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
-
-import java.awt.*;
 import java.util.Random;
 
 public class Oneal extends Enemy {

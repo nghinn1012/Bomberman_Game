@@ -47,7 +47,7 @@ public class BombermanGame extends Application {
     
     public static int WIDTH = 31;
     public static int HEIGHT = 13;
-    public static int level = 5;
+    public static int level = 4;
     public static GraphicsContext gc;
     public static ImageView author_view;
     public static boolean paused = false;

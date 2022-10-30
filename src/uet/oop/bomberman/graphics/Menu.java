@@ -52,7 +52,7 @@ public class Menu {
 
         statusGame.setOnMouseClicked(event -> { 
                                                 
-               level = 5;
+               level = 4;
                load(level);
                running = true;
         });
