@@ -16,7 +16,7 @@ public class Music implements Runnable {
     public static final String explosion = "explosion";
     public static final String dead_bomber = "dead";
     public static final String dead_enemy = "dead2";
-    public static final String BG = "background_music";
+    public static final String BG = "nghien";
     public static final String placebomb = "place_bomb";
     public static final String powerup = "power_up";
 
@@ -94,9 +94,9 @@ public class Music implements Runnable {
     public static void mute() {
         _isMuted = !_isMuted;
         if (_isMuted) {
-            BombermanGame.musicPlayer.stop();
+            BombermanGame.music_bg.stop();
         } else {
-            BombermanGame.musicPlayer.loop();
+            BombermanGame.music_bg.loop();
         }
     }
 

@@ -65,14 +65,9 @@ public class BombermanGame extends Application {
     public int startFlame  = 1;
     public static Bomber myBomber;
     public static int[][] map = new int[HEIGHT][WIDTH];
-    public static Music musicPlayer = new Music(Music.BG);
+    public static Music music_bg = new Music(Music.BG);
     public static String time;  
-    public Music getMusicPlayer() {
-        return musicPlayer;
-    }
-    public void setMusicPlayer(Music _musicPlayer) {
-        musicPlayer = _musicPlayer;
-    }
+
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -80,7 +75,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) {
 
-        //musicPlayer.play();
+        music_bg.play();
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -110,6 +105,10 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
+                if (paused) {
+
+                }
+                else{ 
                     if (running) {
                         author_view.setVisible(false);
                         pane.setVisible(false);
@@ -117,12 +116,13 @@ public class BombermanGame extends Application {
                         update();
                         updateMenu();
                     }
-                    if (muted) {
-                        musicPlayer.stop();
-                    } else {
-                        musicPlayer.loop();
-                    }
                 }
+                if (muted) {
+                    music_bg.stop();
+                } else {
+                    music_bg.loop();
+                }
+            }
             };
         timer.start();
         scene.setOnKeyPressed(event -> {
@@ -181,19 +181,6 @@ public class BombermanGame extends Application {
         flameList.forEach(g -> g.render(gc));
     }
 
-    public void load() {
-        try {
-            scanner = new Scanner(new FileReader("res/levels/level" + level + ".txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        scanner.nextInt();
-        HEIGHT = scanner.nextInt();
-        WIDTH = scanner.nextInt();
-        scanner.nextLine();
-        createMap();
-    }
-
     public static void load(int _level) {
         try {
             scanner = new Scanner(new FileReader("res/levels/level" + _level + ".txt"));
@@ -232,20 +219,25 @@ public class BombermanGame extends Application {
                     }
                     if (r.charAt(j) == '1') {
                         enemies.add(new Balloon(j, i, Sprite.balloom_left1.getFxImage()));
+                        //map[i][j] = 0;
                     }
                     if (r.charAt(j) == '2') {
                         enemies.add(new Oneal(j, i, Sprite.oneal_left1.getFxImage()));
+                        //map[i][j] = 0;
                     }
                     if (r.charAt(j) == '3') {
                         enemies.add(new Minvo(j, i, Sprite.minvo_left1.getFxImage()));
+                        //map[i][j] = 0;
                     }
                     if (r.charAt(j) == '5') {
                         enemies.add(new Doll(j, i, Sprite.doll_left1.getFxImage()));
+                        //map[i][j] = 0;
                     }
                     if (r.charAt(j) == 'b') {
                         stillObjects.add(new BombItem(j, i, Sprite.powerup_bombs.getFxImage()));
                         stillObjects.add(new Brick(j, i, Sprite.brick.getFxImage()));
                         map[i][j] = 1;
+
                     }
                     if (r.charAt(j) == 'f') {
                         stillObjects.add(new FlameItem(j, i, Sprite.powerup_flames.getFxImage()));
@@ -293,6 +285,7 @@ public class BombermanGame extends Application {
                         Music powerUpAudio = new Music(Music.powerup);
                         powerUpAudio.play();
                         map[myBomber.getY() / Sprite.SCALED_SIZE][myBomber.getX() / Sprite.SCALED_SIZE] = 0;
+
                     } else if (stillObject instanceof SpeedItem) {
                         startSpeed += 2;
                         myBomber.setSpeed(startSpeed);
@@ -380,26 +373,34 @@ public class BombermanGame extends Application {
         }
     }
 
+    public Music getmusic_bg() {
+        return music_bg;
+    }
+    public void setmusic_bg(Music _music_bg) {
+        music_bg = _music_bg;
+    }
+
+    // check va chạm của flame
     public void checkCollisionFlame() {
         for (Flame flame : flameList) {
-            Rectangle r1 = flame.getBounds();
+            Rectangle rec1 = flame.getBounds();
             for (Entity stillObject : stillObjects) {
-                Rectangle r2 = stillObject.getBounds();
-                if (r1.intersects(r2) && !(stillObject instanceof Items)) {
+                Rectangle rec2 = stillObject.getBounds();
+                if (rec1.intersects(rec2) && !(stillObject instanceof Items)) {
                     stillObject.setAlive(false);
                     map[stillObject.getY() / Sprite.SCALED_SIZE][stillObject.getX() / Sprite.SCALED_SIZE] = 0;
                 }
             }
             for (Enemy enemy : enemies) {
                 Rectangle r2 = enemy.getBounds();
-                if (r1.intersects(r2)) {
+                if (rec1.intersects(r2)) {
                     enemy.setAlive(false);
                     Music powerUpAudio = new Music(Music.dead_enemy);
                     powerUpAudio.play();
                 }
             }
             Rectangle r2 = myBomber.getBounds();
-            if (r1.intersects(r2)) {
+            if (rec1.intersects(r2)) {
                 myBomber.setAlive(false);
                 startBomb = 1;
                 startFlame = 1;
@@ -415,9 +416,7 @@ public class BombermanGame extends Application {
                     }, 500, 1);
                     Music powerUpAudio = new Music(Music.dead_bomber);
                     powerUpAudio.play();
-
                 }
-
                 createMap();
             }
         }

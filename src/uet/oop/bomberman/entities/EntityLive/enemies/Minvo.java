@@ -14,17 +14,17 @@ import java.awt.*;
 
 public class Minvo extends Enemy implements CheckCollision {
     //phục vụ việc lưu tọa độ tránh lặp lại quá nhiều lần tìm BFS gây lag
-    private int prevBombX = 0;
-    private int prevBombY = 0;
+    private int lastX = 0;
+    private int lastY = 0;
     private Point[] path;
     private boolean changed = false;
     //lưu lại biến BFS cũ
-    private int prevI = 0;
+    private int lastI = 0;
     private int direction;
     public Minvo(int xUnit, int yUnit, Image img) {
         super(xUnit, yUnit, img);
         layer = 1;
-        speed = 1;
+        speed = 2;
         path = BFS.findPath(BombermanGame.map, new Point(this.x / Sprite.SCALED_SIZE,
                         this.y / Sprite.SCALED_SIZE),
                 new Point(BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE,
@@ -70,11 +70,11 @@ public class Minvo extends Enemy implements CheckCollision {
                 BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE);
         Point minvo = new Point(this.x / Sprite.SCALED_SIZE,
                 this.y / Sprite.SCALED_SIZE);
-        if( !(BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE == prevBombX &&
-                BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE == prevBombY)) {
+        if( !(BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE == lastX &&
+                BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE == lastY)) {
             path = BFS.findPath(BombermanGame.map, minvo, player);
-            prevBombX = BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE;
-            prevBombY = BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE;
+            lastX = BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE;
+            lastY = BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE;
             changed = true;
             direction();
         } else {
@@ -88,12 +88,12 @@ public class Minvo extends Enemy implements CheckCollision {
         double yConverted = (double) Math.round(((double) this.y / Sprite.SCALED_SIZE) * 100) / 100;
         if(BombermanGame.myBomber.isAlive()) {
             if(changed) {
-                prevI = 0;
+                lastI = 0;
             } else {
                 if (path == null) {
                     super.stay();
                     direction = 4;
-                } else if (prevI == path.length) {
+                } else if (lastI == path.length) {
                     if ((double) BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE - (double) x / Sprite.SCALED_SIZE < 0)
                         direction = 0;
                     if ((double) BombermanGame.myBomber.getX() / Sprite.SCALED_SIZE - (double) x / Sprite.SCALED_SIZE > 0)
@@ -103,8 +103,8 @@ public class Minvo extends Enemy implements CheckCollision {
                     if ((double) BombermanGame.myBomber.getY() / Sprite.SCALED_SIZE - (double) y / Sprite.SCALED_SIZE > 0)
                         direction = 3;
                 } else if (path != null) {
-                    double xPath = (double) Math.round((double) path[prevI].x * 100) / 100;
-                    double yPath = (double) Math.round((double) path[prevI].y * 100) / 100;
+                    double xPath = (double) Math.round((double) path[lastI].x * 100) / 100;
+                    double yPath = (double) Math.round((double) path[lastI].y * 100) / 100;
 
                     if (xPath - xConverted == 0 && yPath - yConverted > 0) {
                         direction = 3;
@@ -116,7 +116,7 @@ public class Minvo extends Enemy implements CheckCollision {
                         direction = 1;
                     } else if (xPath - xConverted == 0 && yPath - yConverted == 0) {
                         direction = 4;
-                        prevI++;
+                        lastI++;
 
                     }
                 }
