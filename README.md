@@ -1,8 +1,11 @@
 # Bài tập lớn OOP - Bomberman Game
 
-Trong bài tập lớn này, nhiệm vụ của bạn là viết một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES.
+| Thành viên    | Mã sinh viên  |
+| ------------- | ------------- |
+| Ngô Thảo Hương  | 21020338  |
+| Vũ Khánh Huyền  | 21020078  |
 
-<img src="res/demo.png" alt="drawing" width="400"/>
+Trong bài tập lớn này, nhiệm vụ của bạn là viết một phiên bản Java mô phỏng lại trò chơi [Bomberman](https://www.youtube.com/watch?v=mKIOVwqgSXM) kinh điển của NES.
 
 Bạn có thể thể sử dụng mẫu mã nguồn dưới đây để làm starter project:
 1. [Starter project số 1](https://github.com/bqcuong/bomberman-starter/tree/starter-project-1) (đã cung cấp đầy đủ trừ những chức năng trong phần gói nhiệm vụ bắt buộc)
